@@ -11,6 +11,7 @@ use App\Http\ResponseBody\TextBody;
 use App\Http\Session;
 use App\Renderer\IRenderer;
 use App\Router\Route;
+use App\Service\FlashMessageService;
 
 /**
  * Class AbstractController
@@ -45,6 +46,11 @@ abstract class AbstractController
     private $session;
 
     /**
+     * @var FlashMessageService
+     */
+    private $flash_message_service;
+
+    /**
      * @var array
      */
     protected $shared_data = [];
@@ -56,12 +62,13 @@ abstract class AbstractController
      * @param Response $response
      * @param Session $session
      */
-    public function __construct(IRenderer $renderer, Request $request,Response $response, Session $session)
+    public function __construct(IRenderer $renderer, Request $request,Response $response, Session $session, FlashMessageService $flash_message_service)
     {
         $this->renderer = $renderer;
         $this->request = $request;
         $this->response = $response;
         $this->session = $session;
+        $this->flash_message_service = $flash_message_service;
     }
 
     /**
@@ -79,6 +86,14 @@ abstract class AbstractController
     public function setSharedData(string $key, $value)
     {
         $this->shared_data[$key] = $value;
+    }
+
+    /**
+     * @return FlashMessageService
+     */
+    protected function getFlashMessageService(): FlashMessageService
+    {
+        return $this->flash_message_service;
     }
 
     /**
