@@ -16,6 +16,7 @@ use App\QueryBuilder\Interfaces\IQueryBuilder;
 use App\QueryBuilder\QueryBuilder;
 use App\Renderer\IRenderer;
 use App\Renderer\SmartyRenderer;
+use App\Service\FlashMessageService;
 use App\Service\UserService;
 
 define('APP_DIR', __DIR__ . '/../');
@@ -39,6 +40,7 @@ $container->add(ArrayDataManager::class);
 $container->add(ObjectDataManager::class);
 $container->add(QueryBuilder::class);
 $container->add(UserService::class);
+$container->add(FlashMessageService::class);
 
 $container->add(Config::class, function () {
     $config_path = APP_DIR . '/config/config.php';

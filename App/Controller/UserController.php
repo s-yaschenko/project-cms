@@ -28,7 +28,8 @@ class UserController extends AbstractController
         $user = $user_repository->findByColumnValue('email', $email);
 
         if (is_null($user)) {
-            die('User not found or data is incorrect');
+            $this->getFlashMessageService()->message('danger', 'User not found or data is incorrect');
+            return $this->redirect($request->getRefererUrl());
         }
 
         $password = $user_service->generatePasswordHash($password);
