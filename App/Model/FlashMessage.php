@@ -19,5 +19,9 @@ class FlashMessage
         return $this->message;
     }
 
+    public function setMessage(string $key, string $message)
+    {
+        $this->message[$key] = $message;
+    }
 
 }
