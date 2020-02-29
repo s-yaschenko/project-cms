@@ -1,0 +1,13 @@
+{
+    "name": "sergey/cms",
+    "require": {
+        "smarty/smarty": "2.6.31",
+      "ext-json": "*",
+      "ext-mysqli": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    }
+}

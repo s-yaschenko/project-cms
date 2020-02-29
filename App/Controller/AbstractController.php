@@ -1,0 +1,174 @@
+<?php
+
+
+namespace App\Controller;
+
+
+use App\Http\Request;
+use App\Http\Response;
+use App\Http\ResponseBody\JSONBody;
+use App\Http\ResponseBody\TextBody;
+use App\Http\Session;
+use App\Renderer\IRenderer;
+use App\Router\Route;
+
+/**
+ * Class AbstractController
+ * @package App\Controller
+ */
+abstract class AbstractController
+{
+
+    /**
+     * @var IRenderer
+     */
+    private $renderer;
+
+    /**
+     * @var Response
+     */
+    private $response;
+
+    /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var Route
+     */
+    private $route;
+
+    /**
+     * @var Session
+     */
+    private $session;
+
+    /**
+     * @var array
+     */
+    protected $shared_data = [];
+
+    /**
+     * AbstractController constructor.
+     * @param IRenderer $renderer
+     * @param Request $request
+     * @param Response $response
+     * @param Session $session
+     */
+    public function __construct(IRenderer $renderer, Request $request,Response $response, Session $session)
+    {
+        $this->renderer = $renderer;
+        $this->request = $request;
+        $this->response = $response;
+        $this->session = $session;
+    }
+
+    /**
+     * @param Route $route
+     */
+    public function setRoute(Route $route): void
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * @param string $key
+     * @param $value
+     */
+    public function setSharedData(string $key, $value)
+    {
+        $this->shared_data[$key] = $value;
+    }
+
+    /**
+     * @return Route
+     */
+    protected function getRoute()
+    {
+        return $this->route;
+    }
+
+    protected function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param string $template_name
+     * @param array $params
+     * @return Response
+     */
+    protected function render(string $template_name, array $params): Response
+    {
+        foreach ($this->shared_data as $key => &$value) {
+            if (is_scalar($value)) {
+                $this->renderer->addProperty($key, $value);
+            } else {
+                $this->renderer->addPropertyByRef($key, $value);
+            }
+        }
+
+        foreach ($params as $key => &$value) {
+            if (is_scalar($value)) {
+                $this->getRenderer()->addProperty($key, $value);
+            } else {
+                $this->getRenderer()->addPropertyByRef($key, $value);
+            }
+        }
+
+        $body = new TextBody($this->getRenderer()->render($template_name));
+        $this->getResponse()->setBody($body);
+
+        return $this->response;
+    }
+
+    /**
+     * @param array $params
+     * @return Response
+     */
+    protected function json(array $params): Response
+    {
+        $body = new JSONBody($params);
+        $this->getResponse()->setBody($body);
+
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+
+        return $this->response;
+    }
+
+    /**
+     * @param string $url
+     * @return Response
+     */
+    protected function redirect(string $url): Response
+    {
+        $this->getResponse()->redirect($url);
+
+        return $this->response;
+    }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return IRenderer
+     */
+    private function getRenderer(): IRenderer
+    {
+        return $this->renderer;
+    }
+
+    /**
+     * @return Response
+     */
+    private function getResponse(): Response
+    {
+        return $this->response;
+    }
+}
