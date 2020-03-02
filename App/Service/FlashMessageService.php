@@ -27,6 +27,7 @@ class FlashMessageService
     public function __construct(Session $session)
     {
         $this->session = $session;
+        $this->flash_message = new FlashMessage();
     }
 
     /**
@@ -35,10 +36,9 @@ class FlashMessageService
      */
     public function message(string $key, string $message)
     {
-        $flash_message = new FlashMessage();
+        $flash_message = $this->getFlashMessage();
         $flash_message->setMessage($key, $message);
         $this->getSession()->setSessionByKey($this->getSessionKey(), $flash_message);
-        //$this->flash_message = $flash_message;
     }
 
     /**
@@ -55,6 +55,14 @@ class FlashMessageService
     }
 
     /**
+     * @return string
+     */
+    public function getSessionKey(): string
+    {
+        return $this->session_key;
+    }
+
+    /**
      * @return Session
      */
     private function getSession(): Session
@@ -63,10 +71,10 @@ class FlashMessageService
     }
 
     /**
-     * @return string
+     * @return FlashMessage
      */
-    public function getSessionKey(): string
+    private function getFlashMessage(): FlashMessage
     {
-        return $this->session_key;
+        return $this->flash_message;
     }
 }

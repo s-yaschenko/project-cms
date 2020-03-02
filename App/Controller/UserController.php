@@ -21,6 +21,7 @@ class UserController extends AbstractController
     public function login(UserRepository $user_repository, UserService $user_service)
     {
         $request = $this->getRequest();
+        $redirect_url = $request->getRefererUrl();
 
         $email = $request->getStringFromPost('email');
         $password = $request->getStringFromPost('password');
@@ -28,20 +29,21 @@ class UserController extends AbstractController
         $user = $user_repository->findByColumnValue('email', $email);
 
         if (is_null($user)) {
-            $this->getFlashMessageService()->message('danger', 'User not found or data is incorrect');
-            return $this->redirect($request->getRefererUrl());
+            $this->getFlashMessageService()->message('danger', 'Пользователь не найден или данные неверны!');
+            return $this->redirect($redirect_url);
         }
 
         $password = $user_service->generatePasswordHash($password);
         if ($user->getPassword() !== $password) {
-            die('User not found or data is incorrect');
+            $this->getFlashMessageService()->message('danger', 'Пользователь не найден или данные неверны!');
+            return $this->redirect($redirect_url);
         }
 
         $user_id = $user->getId();
         $session_key = $user_service->getSessionKey();
         $this->getSession()->setSessionByKey($session_key, $user_id);
 
-        return $this->redirect($request->getRefererUrl());
+        return $this->redirect($redirect_url);
     }
 
     /**
@@ -56,6 +58,8 @@ class UserController extends AbstractController
         $user = $user_repository->create();
 
         $request = $this->getRequest();
+        $redirect_url = $request->getRefererUrl();
+
         if ($request->isPostData()) {
             $name = $request->getStringFromPost('name');
             $email = $request->getStringFromPost('email');
@@ -63,12 +67,14 @@ class UserController extends AbstractController
             $password_repeat = $request->getStringFromPost('password_repeat');
 
             if ($password !== $password_repeat) {
-                die('Passwords mismatch');
+                $this->getFlashMessageService()->message('danger', 'Пароли не совпадают!');
+                return $this->redirect($redirect_url);
             }
 
             $is_email_exist = $user_repository->isEmailExist($email);
             if ($is_email_exist) {
-                die('email is busy');
+                $this->getFlashMessageService()->message('danger', 'Пользователь с таким Email уже существует!');
+                return $this->redirect($redirect_url);
             }
 
             $password = $user_service->generatePasswordHash($password);
@@ -78,6 +84,7 @@ class UserController extends AbstractController
             $user->setPassword($password);
 
             $user_repository->save($user);
+            $this->getFlashMessageService()->message('success', 'Вы успешно зарегестрировались!');
 
             return $this->redirect('/');
         }
