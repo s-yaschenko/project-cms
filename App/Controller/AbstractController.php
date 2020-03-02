@@ -89,48 +89,14 @@ abstract class AbstractController
     }
 
     /**
-     * @return FlashMessageService
-     */
-    protected function getFlashMessageService(): FlashMessageService
-    {
-        return $this->flash_message_service;
-    }
-
-    /**
-     * @return Route
-     */
-    protected function getRoute()
-    {
-        return $this->route;
-    }
-
-    protected function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
      * @param string $template_name
      * @param array $params
      * @return Response
      */
     protected function render(string $template_name, array $params): Response
     {
-        foreach ($this->shared_data as $key => &$value) {
-            if (is_scalar($value)) {
-                $this->renderer->addProperty($key, $value);
-            } else {
-                $this->renderer->addPropertyByRef($key, $value);
-            }
-        }
-
-        foreach ($params as $key => &$value) {
-            if (is_scalar($value)) {
-                $this->getRenderer()->addProperty($key, $value);
-            } else {
-                $this->getRenderer()->addPropertyByRef($key, $value);
-            }
-        }
+        $this->setProperty($this->getSharedData());
+        $this->setProperty($params);
 
         $body = new TextBody($this->getRenderer()->render($template_name));
         $this->getResponse()->setBody($body);
@@ -169,6 +135,49 @@ abstract class AbstractController
     protected function getRequest(): Request
     {
         return $this->request;
+    }
+
+    /**
+     * @return FlashMessageService
+     */
+    protected function getFlashMessageService(): FlashMessageService
+    {
+        return $this->flash_message_service;
+    }
+
+    /**
+     * @return Route
+     */
+    protected function getRoute()
+    {
+        return $this->route;
+    }
+
+    protected function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param array $property
+     */
+    private function setProperty(array $property)
+    {
+        foreach ($property as $key => &$value) {
+            if (is_scalar($value)) {
+                $this->getRenderer()->addProperty($key, $value);
+            } else {
+                $this->getRenderer()->addPropertyByRef($key, $value);
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function getSharedData(): array
+    {
+        return $this->shared_data;
     }
 
     /**
