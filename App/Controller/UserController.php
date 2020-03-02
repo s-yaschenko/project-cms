@@ -55,7 +55,7 @@ class UserController extends AbstractController
      */
     public function register(UserRepository $user_repository, UserService $user_service)
     {
-        $user = $user_repository->create();
+        $user = $user_repository->createNewEntity();
 
         $request = $this->getRequest();
         $redirect_url = $request->getRefererUrl();

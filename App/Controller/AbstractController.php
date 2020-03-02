@@ -61,6 +61,7 @@ abstract class AbstractController
      * @param Request $request
      * @param Response $response
      * @param Session $session
+     * @param FlashMessageService $flash_message_service
      */
     public function __construct(IRenderer $renderer, Request $request,Response $response, Session $session, FlashMessageService $flash_message_service)
     {
@@ -153,6 +154,9 @@ abstract class AbstractController
         return $this->route;
     }
 
+    /**
+     * @return Session
+     */
     protected function getSession()
     {
         return $this->session;

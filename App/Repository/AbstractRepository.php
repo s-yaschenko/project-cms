@@ -117,7 +117,7 @@ abstract class AbstractRepository
     /**
      * @return AbstractEntity
      */
-    public function create()
+    public function createNewEntity()
     {
         return new $this->model;
     }

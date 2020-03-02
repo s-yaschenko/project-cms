@@ -13,7 +13,7 @@ use App\Model\User;
  * @method User find(int $id)
  * @method User[] findAll()
  * @method User|null findByColumnValue(string $column, string $value)
- * @method User create()
+ * @method User createNewEntity()
  */
 class UserRepository extends AbstractRepository
 {
