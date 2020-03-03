@@ -18,6 +18,7 @@ class Folder extends AbstractEntity
 
     /**
      * @var string
+     * @DbColumn()
      */
     protected $name = '';
 
