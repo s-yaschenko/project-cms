@@ -45,7 +45,7 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/view">Страница</a>
+                <a class="nav-link" href="/folders">Категории</a>
             </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">

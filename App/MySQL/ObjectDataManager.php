@@ -57,11 +57,25 @@ class ObjectDataManager implements IObjectDataManager
     }
 
     /**
-     * @inheritDoc
+     * @param string $query
+     * @param string $class_name
+     * @return array
+     * @throws GivenClassNotImplementerITableRowException
+     * @throws QueryException
      */
     public function fetchAll(string $query, string $class_name): array
     {
-        // TODO: Implement fetchAll() method.
+        $this->isITableRowClass($class_name);
+
+        $result = $this->query($query);
+
+        $data = [];
+
+        while ($row = mysqli_fetch_object($result, $class_name)) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     /**
