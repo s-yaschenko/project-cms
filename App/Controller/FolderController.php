@@ -78,7 +78,7 @@ class FolderController extends AbstractController
             $folder->setName($name);
             $folder_repository->save($folder);
 
-            $this->getFlashMessageService()->message('success', "Название категории {$old_name} изменили на {$name}");
+            $this->getFlashMessageService()->message('success', "Название категории '{$old_name}' изменили на '{$name}'");
 
             return $this->redirect('/folders');
         }
@@ -86,5 +86,31 @@ class FolderController extends AbstractController
         return $this->render('folder/folder.tpl', [
             'folder' => $folder
         ]);
+    }
+
+
+    /**
+     * @Route(url="/folder/delete")
+     *
+     * @param FolderRepository $folder_repository
+     * @return Response
+     */
+    public function delete(FolderRepository $folder_repository)
+    {
+        $request = $this->getRequest();
+
+        $folder_id = $request->getIntFromPost('id');
+
+        $folder = $folder_repository->find($folder_id);
+        if (is_null($folder)) {
+            $this->getFlashMessageService()->message('info', 'Категория для удаления не найдена!');
+            return $this->redirect('/folders');
+        }
+
+        $folder_repository->delete($folder);
+
+        $this->getFlashMessageService()->message('success', "Категория '{$folder->getName()}' удалена!");
+
+        return $this->redirect('/folders');
     }
 }

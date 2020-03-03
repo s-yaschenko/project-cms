@@ -114,6 +114,12 @@ abstract class AbstractRepository
         return $result;
     }
 
+
+    public function delete(AbstractEntity $entity)
+    {
+
+    }
+
     /**
      * @return AbstractEntity
      */

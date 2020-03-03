@@ -43,9 +43,24 @@ class Request
         return !empty($_POST);
     }
 
+    /**
+     * @param string $key
+     * @param string $default
+     * @return string
+     */
     public function getStringFromPost(string $key, $default = '')
     {
         return (string) $this->getRawFromPost($key, $default);
+    }
+
+    /**
+     * @param string $key
+     * @param string $default
+     * @return int
+     */
+    public function getIntFromPost(string $key, $default = '')
+    {
+        return (int) $this->getRawFromPost($key, $default);
     }
 
     /**

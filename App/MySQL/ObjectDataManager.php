@@ -102,11 +102,17 @@ class ObjectDataManager implements IObjectDataManager
     }
 
     /**
-     * @inheritDoc
+     * @param ITableRow $row
+     * @return int
      */
     public function delete(ITableRow $row): int
     {
-        // TODO: Implement delete() method.
+        $id = $row->getPrimaryKeyValue();
+        $primary_key = $row->getPrimaryKey();
+
+        return $this->getArrayDataManager()->delete($row->getTableName(),[
+           $primary_key => $id
+        ]);
     }
 
     /**
