@@ -1,5 +1,12 @@
 {include file="header.tpl"}
 <h1>Регистрация</h1>
+{if !empty($message)}
+    {foreach from=$message->getMessage() item=e key=k}
+        <div class="alert alert-{$k}" role="alert">
+            {$e}
+        </div>
+    {/foreach}
+{/if}
 <form action="" method="post">
     <input type="hidden" name="user_id" value="{$user->getId()}">
     <div class="form-group">

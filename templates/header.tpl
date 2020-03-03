@@ -12,6 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 {literal}
     <style>
@@ -48,8 +49,13 @@
             </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
-            <a class="px-2 text-white" href="">Вход</a>
-            <a class="px-2 text-white" href="/register">Регистрация</a>
+            {if $user->getId()}
+                <span class="px-2 text-white">Вы зашли как: <a href="/user/edit">{$user->getName()}</a></span>
+                <a class="px-2 text-white" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Выход</a>
+            {else}
+                <a class="px-2 text-white" href="/login">Вход</a>
+                <a class="px-2 text-white" href="/register">Регистрация</a>
+            {/if}
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>

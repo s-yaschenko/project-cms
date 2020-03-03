@@ -22,28 +22,30 @@ class UserController extends AbstractController
     {
         $request = $this->getRequest();
         $redirect_url = $request->getRefererUrl();
+        if ($request->isPostData()) {
+            $email = $request->getStringFromPost('email');
+            $password = $request->getStringFromPost('password');
 
-        $email = $request->getStringFromPost('email');
-        $password = $request->getStringFromPost('password');
+            $user = $user_repository->findByColumnValue('email', $email);
 
-        $user = $user_repository->findByColumnValue('email', $email);
+            if (is_null($user)) {
+                $this->getFlashMessageService()->message('danger', 'Пользователь не найден или данные неверны!');
+                return $this->redirect($redirect_url);
+            }
 
-        if (is_null($user)) {
-            $this->getFlashMessageService()->message('danger', 'Пользователь не найден или данные неверны!');
-            return $this->redirect($redirect_url);
+            $password = $user_service->generatePasswordHash($password);
+            if ($user->getPassword() !== $password) {
+                $this->getFlashMessageService()->message('danger', 'Пользователь не найден или данные неверны!');
+                return $this->redirect($redirect_url);
+            }
+
+            $user_id = $user->getId();
+            $session_key = $user_service->getSessionKey();
+            $this->getSession()->setSessionByKey($session_key, $user_id);
+            return $this->redirect('/');
         }
 
-        $password = $user_service->generatePasswordHash($password);
-        if ($user->getPassword() !== $password) {
-            $this->getFlashMessageService()->message('danger', 'Пользователь не найден или данные неверны!');
-            return $this->redirect($redirect_url);
-        }
-
-        $user_id = $user->getId();
-        $session_key = $user_service->getSessionKey();
-        $this->getSession()->setSessionByKey($session_key, $user_id);
-
-        return $this->redirect($redirect_url);
+        return $this->render('user/login.tpl',[]);
     }
 
     /**
