@@ -25,7 +25,11 @@
                 <th scope="row">{$folder->getId()}</th>
                 <td>{$folder->getName()}</td>
                 <td style="white-space: nowrap;">
-
+                    <a href="/folder/edit/{$folder->getId()}" class="btn btn-sm btn-primary">Редактировать</a>
+                    <form style="display:inline-block;" action="/folder/delete" method="post">
+                        <input type="hidden" name="folder_id" value="{$folder->getId()}">
+                        <input type="submit" class="btn btn-sm btn-danger ml-2" value="Удалить"/>
+                    </form>
                 </td>
             </tr>
         {/foreach}
