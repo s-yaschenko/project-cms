@@ -11,6 +11,7 @@ use App\Model\Folder;
  * @package App\Repository
  *
  * @method Folder[] findAll()
+ * @method Folder createNewEntity()
  */
 class FolderRepository extends AbstractRepository
 {

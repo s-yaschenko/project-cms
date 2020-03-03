@@ -1,4 +1,13 @@
 {include file="header.tpl"}
+
+{if !empty($message)}
+    {foreach from=$message->getMessage() item=e key=k}
+        <div class="alert alert-{$k}" role="alert">
+            {$e}
+        </div>
+    {/foreach}
+{/if}
+
 <div class="row">
     <table class="table">
         <thead class="thead-dark">
@@ -6,7 +15,7 @@
                 <th scope="col" width="1">#</th>
                 <th scope="col">Название</th>
                 <th scope="col" width="1" style="white-space: nowrap;">
-                    <a class="btn btn-success" href="/folder/edit">Добавить категорию</a>
+                    <a class="btn btn-success" href="/folder/create">Добавить категорию</a>
                 </th>
             </tr>
         </thead>
