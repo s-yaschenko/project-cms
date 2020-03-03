@@ -1,5 +1,5 @@
 {include file="header.tpl"}
-
+<h1>Регистрация</h1>
 <form action="" method="post">
     <input type="hidden" name="user_id" value="{$user->getId()}">
     <div class="form-group">

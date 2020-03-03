@@ -1,112 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-
 <head>
     <meta charset="utf-8">
-    <title>MyPortfolio</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Starter Template · Bootstrap</title>
 
-    <!-- Favicons -->
-    <link href="/../img/favicon.png" rel="icon">
-    <link href="/../img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/starter-template/">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|Raleway:400,700&display=swap"
-          rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <!-- Bootstrap CSS File -->
-    <link href="/../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+{literal}
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-    <!-- Vendor CSS Files -->
-    <link href="/../vendor/icofont/icofont.min.css" rel="stylesheet">
-    <link href="/../vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
-    <link href="/../vendor/aos/aos.css" rel="stylesheet">
-    <link href="/../vendor/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="/../css/style.css" type="text/css" rel="stylesheet">
-
-    <!-- =======================================================
-      Template Name: MyPortfolio
-      Template URL: https://bootstrapmade.com/myportfolio-bootstrap-portfolio-website-template/
-      Author: BootstrapMade.com
-      Author URL: https://bootstrapmade.com/
-    ======================================================= -->
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    {/literal}
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.4/examples/starter-template/starter-template.css" rel="stylesheet">
 </head>
-
 <body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/">Место под лого</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-<div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
-    <div class="container py-2 py-md-5">
-        <div class="row align-items-start">
-            <div class="col-md-2">
-                <ul class="custom-menu">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li><a href="about.html">About Me</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="works.html">Works</a></li>
-                </ul>
-            </div>
-            <div class="col-md-6 d-none d-md-block  mr-auto">
-                <div class="tweet d-flex">
-                    <span class="icofont-twitter text-white mt-2 mr-3"></span>
-                    <div>
-                        <p><em>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut
-                                officiis explicabo inventore. <br> <a href="#">t.co/v82jsk</a></em></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 d-none d-md-block">
-                <h3>Hire Me</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut officiis
-                    explicabo inventore. <br> <a href="#">myemail@gmail.com</a></p>
-            </div>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/view">Страница</a>
+            </li>
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+            <a class="nav-link" href="">Вход</a>
+            <a class="nav-link" href="/register">Регистрация</a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
-
-    </div>
-</div>
-
-<nav class="navbar navbar-light custom-navbar">
-    <div class="container d-flex justify-content-between">
-        {if $user->getId()}
-            <span>Вы зашли как: <a href="/user/edit">{$user->getName()}</a></span>
-            <a href="/logout">Выход</a>
-
-        {else}
-            {if !empty($message)}
-                {foreach from=$message->getMessage() item=e key=k}
-                    <div class="alert alert-{$k}" role="alert">
-                       {$e}
-                    </div>
-                {/foreach}
-            {/if}
-            <div class="container d-flex justify-content-between">
-                <form class="form-inline" method="post" action="/login">
-                    <label class="sr-only" for="inlineFormInputName2">Login</label>
-                    <input type="text" name="email" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="email">
-
-                    <label class="sr-only" for="inlineFormInputName2">Name</label>
-                    <input type="password" name="password" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="password">
-
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                </form>
-                <a href="/register">Регистрация</a>
-            </div>
-        {/if}
-
-    </div>
-    <div class="container">
-        <a class="navbar-brand" href="/">MyPortfolio.</a>
-
-        <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
-            <span></span>
-        </a>
-
     </div>
 </nav>
 
-<main id="main">
-    <div class="site-section site-portfolio">
+<main role="main" class="container">
         <div class="container">
