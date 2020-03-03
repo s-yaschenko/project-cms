@@ -42,6 +42,7 @@ class FolderController extends AbstractController
 
             $folder->setName($name);
             $folder_repository->save($folder);
+
             $this->getFlashMessageService()->message('success',"Категория: {$folder->getName()}, добавлена!");
 
             return $this->redirect('/folders');
@@ -49,6 +50,41 @@ class FolderController extends AbstractController
 
         return $this->render('folder/folder.tpl',[
            'folder' => $folder
+        ]);
+    }
+
+    /**
+     * @Route(url="/folder/edit/{id}")
+     *
+     * @param FolderRepository $folder_repository
+     * @return Response
+     */
+    public function edit(FolderRepository $folder_repository)
+    {
+        $folder_id = $this->getRoute()->getParam('id');
+
+        $folder = $folder_repository->find($folder_id);
+        if (is_null($folder)) {
+            $this->getFlashMessageService()->message('info', 'Категория для редактирования не найдена!');
+            return $this->redirect('/folders');
+        }
+
+        $old_name = $folder->getName();
+
+        $request = $this->getRequest();
+        if ($request->isPostData()) {
+            $name = $request->getStringFromPost('name');
+
+            $folder->setName($name);
+            $folder_repository->save($folder);
+
+            $this->getFlashMessageService()->message('success', "Название категории {$old_name} изменили на {$name}");
+
+            return $this->redirect('/folders');
+        }
+
+        return $this->render('folder/folder.tpl', [
+            'folder' => $folder
         ]);
     }
 }

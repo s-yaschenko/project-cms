@@ -10,6 +10,7 @@ use App\Model\Folder;
  * Class FolderRepository
  * @package App\Repository
  *
+ * @method Folder find(int $id)
  * @method Folder[] findAll()
  * @method Folder createNewEntity()
  */
