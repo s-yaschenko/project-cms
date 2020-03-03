@@ -2,8 +2,9 @@
     "name": "sergey/cms",
     "require": {
         "smarty/smarty": "2.6.31",
-      "ext-json": "*",
-      "ext-mysqli": "*"
+        "fzaninotto/faker": "^1.9",
+        "ext-json": "*",
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
