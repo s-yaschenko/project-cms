@@ -76,9 +76,11 @@ class Request
 
     private function parseUrl()
     {
-        $request_uri = $_SERVER['REQUEST_URI'];
+        $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null;
 
-        $request_data = explode('?', $request_uri);
-        $this->url = $request_data[0];
+        if (!is_null($request_uri)) {
+            $request_data = explode('?', $request_uri);
+            $this->url = $request_data[0];
+        }
     }
 }
