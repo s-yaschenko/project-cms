@@ -79,11 +79,34 @@ class ObjectDataManager implements IObjectDataManager
     }
 
     /**
-     * @inheritDoc
+     * @param string $query
+     * @param string $hash_key
+     * @param string $class_name
+     * @return array
+     * @throws GivenClassNotImplementerITableRowException
+     * @throws QueryException
      */
     public function fetchAllHash(string $query, string $hash_key, string $class_name): array
     {
-        // TODO: Implement fetchAllHash() method.
+        $this->isITableRowClass($class_name);
+
+        $result = $this->query($query);
+
+        $data = [];
+        while ($row = mysqli_fetch_object($result, $class_name)) {
+            /**
+             * @var ITableRow $row
+             */
+            $key = $row->getColumnValue($hash_key);
+
+            if (is_null($key)) {
+                continue;
+            }
+
+            $data[$key] = $row;
+        }
+
+        return $data;
     }
 
     /**
