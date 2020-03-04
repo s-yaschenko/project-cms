@@ -47,6 +47,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/folders">Категории</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/vendors">Производители</a>
+            </li>
         </ul>
         <div class="form-inline my-2 my-lg-0">
             {if $user->getId()}

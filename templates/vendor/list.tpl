@@ -1,5 +1,5 @@
 {include file="header.tpl"}
-<h1>Категории</h1>
+<h1>Производители</h1>
 {if !empty($message)}
     {foreach from=$message->getMessage() item=e key=k}
         <div class="alert alert-{$k}" role="alert">
@@ -14,18 +14,18 @@
             <tr>
                 <th scope="col">Название</th>
                 <th scope="col" width="1" style="white-space: nowrap;">
-                    <a class="btn btn-success" href="/folder/create">Добавить категорию</a>
+                    <a class="btn btn-success" href="/vendor/create">Добавить категорию</a>
                 </th>
             </tr>
         </thead>
         <tbody>
-        {foreach from=$folders item=folder}
+        {foreach from=$vendors item=vendor}
             <tr>
-                <td>{$folder.name} <small class="text-secondary">({$folder.id})</small> </td>
+                <td>{$vendor.name} <small class="text-secondary">({$vendor.id})</small> </td>
                 <td style="white-space: nowrap;">
-                    <a href="/folder/edit/{$folder.id}" class="btn btn-sm btn-primary">Редактировать</a>
-                    <form style="display:inline-block;" action="/folder/delete" method="post">
-                        <input type="hidden" name="id" value="{$folder.id}">
+                    <a href="/folder/edit/{$vendor.id}" class="btn btn-sm btn-primary">Редактировать</a>
+                    <form style="display:inline-block;" action="/vendor/delete" method="post">
+                        <input type="hidden" name="id" value="{$vendor.id}">
                         <input type="submit" class="btn btn-sm btn-danger ml-2" value="Удалить"/>
                     </form>
                 </td>
