@@ -52,6 +52,41 @@ class VendorController extends AbstractController
     }
 
     /**
+     * @Route(url="/vendor/")
+     *
+     * @param VendorRepository $vendor_repository
+     * @return Response
+     */
+    public function edit(VendorRepository $vendor_repository)
+    {
+        $vendor_id = $this->getRoute()->getParam('id');
+
+        $vendor = $vendor_repository->find($vendor_id);
+        if (is_null($vendor)) {
+            $this->getFlashMessageService()->message('info', 'Категория для редактирования не найдена!');
+            return $this->redirect('/folders');
+        }
+
+        $old_name = $vendor->getName();
+
+        $request = $this->getRequest();
+        if ($request->isPostData()) {
+            $name = $request->getStringFromPost('name');
+
+            $vendor->setName($name);
+            $vendor_repository->save($vendor);
+
+            $this->getFlashMessageService()->message('success', "Название категории '{$old_name}' изменили на '{$name}'");
+
+            return $this->redirect('/vendorss');
+        }
+
+        return $this->render('vendor/vendor.tpl', [
+            'vendor' => $vendor
+        ]);
+    }
+
+    /**
      * @Route(url="/vendor/delete")
      *
      * @param VendorRepository $vendor_repository
