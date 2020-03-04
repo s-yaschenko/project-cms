@@ -21,11 +21,11 @@
         <tbody>
         {foreach from=$folders item=folder}
             <tr>
-                <td>{$folder->getName()} <small class="text-secondary">({$folder->getId()})</small> </td>
+                <td>{$folder.name} <small class="text-secondary">({$folder.id})</small> </td>
                 <td style="white-space: nowrap;">
-                    <a href="/folder/edit/{$folder->getId()}" class="btn btn-sm btn-primary">Редактировать</a>
+                    <a href="/folder/edit/{$folder.id}" class="btn btn-sm btn-primary">Редактировать</a>
                     <form style="display:inline-block;" action="/folder/delete" method="post">
-                        <input type="hidden" name="id" value="{$folder->getId()}">
+                        <input type="hidden" name="id" value="{$folder.id}">
                         <input type="submit" class="btn btn-sm btn-danger ml-2" value="Удалить"/>
                     </form>
                 </td>
