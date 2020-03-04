@@ -23,7 +23,7 @@
             <tr>
                 <td>{$vendor.name} <small class="text-secondary">({$vendor.id})</small> </td>
                 <td style="white-space: nowrap;">
-                    <a href="/folder/edit/{$vendor.id}" class="btn btn-sm btn-primary">Редактировать</a>
+                    <a href="/vendor/edit/{$vendor.id}" class="btn btn-sm btn-primary">Редактировать</a>
                     <form style="display:inline-block;" action="/vendor/delete" method="post">
                         <input type="hidden" name="id" value="{$vendor.id}">
                         <input type="submit" class="btn btn-sm btn-danger ml-2" value="Удалить"/>

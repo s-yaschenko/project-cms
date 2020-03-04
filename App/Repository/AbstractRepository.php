@@ -115,9 +115,13 @@ abstract class AbstractRepository
     }
 
 
+    /**
+     * @param AbstractEntity $entity
+     * @return int
+     */
     public function delete(AbstractEntity $entity)
     {
-
+        return $this->getObjectDataManager()->delete($entity);
     }
 
     /**

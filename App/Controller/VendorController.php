@@ -50,4 +50,29 @@ class VendorController extends AbstractController
             'vendor' => $vendor
         ]);
     }
+
+    /**
+     * @Route(url="/vendor/delete")
+     *
+     * @param VendorRepository $vendor_repository
+     * @return Response
+     */
+    public function delete(VendorRepository $vendor_repository)
+    {
+        $request = $this->getRequest();
+
+        $vendor_id = $request->getIntFromPost('id');
+
+        $vendor = $vendor_repository->find($vendor_id);
+        if (is_null($vendor)) {
+            $this->getFlashMessageService()->message('info', 'Производитель для удаления не найден!');
+            $this->redirect('/vendors');
+        }
+
+        $vendor_repository->delete($vendor);
+
+        $this->getFlashMessageService()->message('success', "Производитель '{$vendor->getName()}' удален!");
+
+        return $this->redirect('/vendors');
+    }
 }
