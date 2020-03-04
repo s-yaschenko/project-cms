@@ -27,6 +27,13 @@ interface IQueryBuilder
     public function where(string $column, string $value, string $condition = '='): IQueryBuilder;
 
     /**
+     * @param string $column
+     * @param string $param
+     * @return IQueryBuilder
+     */
+    public function orderBy(string $column, string $param = 'ASC'): IQueryBuilder;
+
+    /**
      * @return string
      */
     public function getQuery():string;

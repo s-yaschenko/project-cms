@@ -52,6 +52,18 @@ class QueryBuilder implements IQueryBuilder
     }
 
     /**
+     * @param string $column
+     * @param string $param
+     * @return IQueryBuilder
+     */
+    public function orderBy(string $column, string $param = 'ASC'): IQueryBuilder
+    {
+        $this->query['ORDER BY'] = "{$column} $param ";
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getQuery(): string
