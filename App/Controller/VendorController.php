@@ -52,7 +52,7 @@ class VendorController extends AbstractController
     }
 
     /**
-     * @Route(url="/vendor/")
+     * @Route(url="/vendor/edit/{id}")
      *
      * @param VendorRepository $vendor_repository
      * @return Response
@@ -78,7 +78,7 @@ class VendorController extends AbstractController
 
             $this->getFlashMessageService()->message('success', "Название категории '{$old_name}' изменили на '{$name}'");
 
-            return $this->redirect('/vendorss');
+            return $this->redirect('/vendors');
         }
 
         return $this->render('vendor/vendor.tpl', [
