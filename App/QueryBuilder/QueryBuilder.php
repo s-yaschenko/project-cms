@@ -63,6 +63,19 @@ class QueryBuilder implements IQueryBuilder
         return $this;
     }
 
+
+    /**
+     * @param int $start
+     * @param int $limit
+     * @return IQueryBuilder
+     */
+    public function limit(int $start, int $limit): IQueryBuilder
+    {
+        $this->query['LIMIT'] = " LIMIT {$start}, {$limit}";
+
+        return $this;
+    }
+
     /**
      * @return string
      */

@@ -34,6 +34,13 @@ interface IQueryBuilder
     public function orderBy(string $column, string $param = 'ASC'): IQueryBuilder;
 
     /**
+     * @param int $start
+     * @param int $limit
+     * @return IQueryBuilder
+     */
+    public function limit(int $start, int $limit): IQueryBuilder;
+
+    /**
      * @return string
      */
     public function getQuery():string;
