@@ -11,7 +11,7 @@ use App\Repository\VendorRepository;
 
 class ProductController extends AbstractController
 {
-    private const PER_PAGE = 10;
+    private const PER_PAGE = 9;
 
     /**
      * @Route(url="/products")

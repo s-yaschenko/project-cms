@@ -7,6 +7,14 @@ namespace App\Repository;
 use App\Model\AbstractEntity;
 use App\Model\Product;
 
+/**
+ * Class ProductRepository
+ * @package App\Repository
+ *
+ * @method Product find(int $id)
+ * @method Product[] findAll()
+ * @method Product[] findAllWithLimit(int $limit = 50, int $start = 0)
+ */
 class ProductRepository extends AbstractRepository
 {
     /**
