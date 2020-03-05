@@ -55,7 +55,7 @@ abstract class AbstractRepository
 
     /**
      * @param int $id
-     * @return ITableRow|null
+     * @return AbstractEntity|null
      */
     public function find(int $id)
     {
@@ -65,7 +65,16 @@ abstract class AbstractRepository
             ->where('id', $id)
             ->getQuery();
 
-        return $this->getObjectDataManager()->fetchRow($query, $this->model);
+        /**
+         * @var AbstractEntity $entity
+         */
+        $entity = $this->getObjectDataManager()->fetchRow($query, $this->model);
+
+        if (is_null($entity)) {
+            return $entity;
+        }
+
+        return $this->modifyResultItem($entity);
     }
 
     /**
@@ -78,7 +87,9 @@ abstract class AbstractRepository
             ->from($this->table_name)
             ->getQuery();
 
-        return $this->getObjectDataManager()->fetchAll($query, $this->model);
+        $entities = $this->getObjectDataManager()->fetchAll($query, $this->model);
+
+        return $this->modifyResultList($entities);
     }
 
     /**
@@ -95,9 +106,19 @@ abstract class AbstractRepository
             ->select()
             ->from($this->table_name)
             ->where($column, $value)
+            ->limit(0, 1)
             ->getQuery();
 
-        return $odm->fetchRow($query, $this->model);
+        /**
+         * @var AbstractEntity $entity
+         */
+        $entity = $odm->fetchRow($query, $this->model);
+
+        if (is_null($entity)) {
+            return $entity;
+        }
+
+        return $this->modifyResultItem($entity);
     }
 
     /**
@@ -160,5 +181,27 @@ abstract class AbstractRepository
         $property->setAccessible(true);
 
         return $property->getValue($model);
+    }
+
+    /**
+     * @param AbstractEntity $entity
+     * @return mixed
+     */
+    protected function modifyResultItem(AbstractEntity $entity) {
+        $list = [
+            0 => $entity,
+        ];
+
+        $result = $this->modifyResultList($list);
+
+        return $result[0];
+    }
+
+    /**
+     * @param array $result
+     * @return array
+     */
+    protected function modifyResultList(array $result) {
+        return $result;
     }
 }
