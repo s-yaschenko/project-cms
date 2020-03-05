@@ -72,9 +72,6 @@ class ProductRepository extends AbstractRepository
                 $product_id = $pair->product_id;
                 $folder_id = $pair->folder_id;
 
-                /**
-                 * @todo Переделать связи, иначе на больших объемах данных будут тормоза
-                 */
                 foreach ($products as $product) {
                     if ($product->getId() != $product_id) {
                         continue;

@@ -71,7 +71,7 @@ class QueryBuilder implements IQueryBuilder
      */
     public function limit(int $start, int $limit): IQueryBuilder
     {
-        $this->query['LIMIT'] = " LIMIT {$start}, {$limit}";
+        $this->query['LIMIT'] = " {$start}, {$limit}";
 
         return $this;
     }
@@ -85,7 +85,7 @@ class QueryBuilder implements IQueryBuilder
 
         foreach ($this->query as $key => $value) {
             if ($key == 'WHERE') {
-                $query .= $key . ' ' . implode(' AND ', $value);
+                $query .= $key . ' ' . implode(' AND ', $value) . ' ';
                 continue;
             }
 

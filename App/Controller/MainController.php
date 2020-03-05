@@ -18,10 +18,7 @@ class MainController extends AbstractController
     {
         $h1 = 'Hello world :)';
 
-        return $this->render('index.tpl',[
-            'h1' => $h1
-        ]);
-
+        return $this->redirect('/products');
     }
 
 

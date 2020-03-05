@@ -154,6 +154,38 @@ abstract class AbstractRepository
     }
 
     /**
+     * @return int
+     */
+    public function getCount()
+    {
+        $query = $this->getQueryBuilder()
+            ->select('COUNT(1) as count')
+            ->from($this->table_name)
+            ->getQuery();
+
+        /**
+         * @var $result AbstractEntity
+         */
+        $result = $this->getObjectDataManager()->fetchRow($query, $this->model);
+
+        return (int) $result->getColumnValue('count') ?? 0;
+    }
+
+    /**
+     * @param int $limit
+     * @param int $start
+     * @return array
+     */
+    public function findAllWithLimit(int $limit = 50, int $start = 0)
+    {
+        $query = "SELECT * FROM " . $this->table_name . " LIMIT $start, $limit";
+
+        $result = $this->getObjectDataManager()->fetchAllHash($query, 'id', $this->model);
+
+        return $this->modifyResultList($result);
+    }
+
+    /**
      * @return IObjectDataManager
      */
     protected function getObjectDataManager(): IObjectDataManager
