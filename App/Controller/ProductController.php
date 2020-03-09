@@ -71,6 +71,11 @@ class ProductController extends AbstractController
             $vendor_id = $request->getIntFromPost('vendor_id');
             $folder_ids = $request->getArrayFromPost('folder_ids');
 
+            if (!$name || !$price || !$amount) {
+                $this->getFlashMessageService()->message('danger', 'Заполнены не все обязательные поля!');
+                return $this->redirect($request->getRefererUrl());
+            }
+
             $product->setName($name);
             $product->setPrice($price);
             $product->setAmount($amount);

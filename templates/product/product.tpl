@@ -6,11 +6,18 @@
         Редактировать товар: {$product->getName()}
     {/if}
 </h1>
+{if !empty($message)}
+    {foreach from=$message->getMessage() item=e key=k}
+        <div class="alert alert-{$k}" role="alert">
+            {$e}
+        </div>
+    {/foreach}
+{/if}
 <form action="" method="post">
     <input type="hidden" name="product_id" value="{$product->getId()}">
     <div class="form-group">
         <label for="product_name">Название товара</label>
-        <input id="product_name" type="text" name="name" class="form-control" required value="{$product->getName()}">
+        <input id="product_name" type="text" name="name" class="form-control" value="{$product->getName()}">
     </div>
     <div class="form-group">
         <label for="product_price">Цена</label>
