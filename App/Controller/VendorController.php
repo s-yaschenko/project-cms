@@ -9,6 +9,9 @@ use App\Repository\VendorRepository;
 
 class VendorController extends AbstractController
 {
+
+    private const PER_PAGE = 10;
+
     /**
      * @Route(url="/vendors")
      *
@@ -17,10 +20,23 @@ class VendorController extends AbstractController
      */
     public function list(VendorRepository $vendor_repository)
     {
-        $vendors = $vendor_repository->findAll();
+        $current_page = $this->getRequest()->getIntFromGet('page', '1');
+
+        $start = self::PER_PAGE * ($current_page - 1);
+
+        $vendors = [
+            'count' => $vendor_repository->getCount(),
+            'items' => $vendor_repository->findAllWithLimit(self::PER_PAGE, $start)
+        ];
+
+        $paginator = [
+            'pages' => ceil($vendors['count'] / self::PER_PAGE),
+            'current' => $current_page
+        ];
 
         return $this->render('vendor/list.tpl', [
-            'vendors' => $vendors
+            'vendors' => $vendors,
+            'paginator' => $paginator
         ]);
     }
 

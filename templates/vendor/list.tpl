@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {foreach from=$vendors item=vendor}
+        {foreach from=$vendors.items item=vendor}
             <tr>
                 <td>{$vendor.name} <small class="text-secondary">({$vendor.id})</small> </td>
                 <td style="white-space: nowrap;">
@@ -34,4 +34,5 @@
         </tbody>
     </table>
 </div>
+{include file="pagination.tpl"}
 {include file="bottom.tpl"}
