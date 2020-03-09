@@ -55,6 +55,7 @@ class ProductController extends AbstractController
      * @param ProductRepository $product_repository
      * @param VendorRepository $vendor_repository
      * @param FolderRepository $folder_repository
+     * @param UserService $user_service
      * @return Response
      */
     public function create(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, UserService $user_service)
@@ -97,6 +98,66 @@ class ProductController extends AbstractController
             $product_repository->save($product);
 
             $this->getFlashMessageService()->message('success', "Товар: '{$name}' добавлен!");
+
+            return $this->redirect('/products');
+        }
+
+        return $this->render('product/product.tpl', [
+            'product' => $product,
+            'vendors' => $vendors,
+            'folders' => $folders
+        ]);
+    }
+
+    /**
+     * @Route(url="/product/edit/{product_id}")
+     *
+     * @param ProductRepository $product_repository
+     * @param VendorRepository $vendor_repository
+     * @param FolderRepository $folder_repository
+     * @param UserService $user_service
+     * @return Response
+     */
+    public function edit(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, UserService $user_service)
+    {
+        $request = $this->getRequest();
+        $user = $user_service->getCurrentUser();
+
+        if (!$user->getId()) {
+            $this->getFlashMessageService()->message('info', 'Авторизуйтесь для обновления товара');
+            return $this->redirect($request->getRefererUrl());
+        }
+
+        $product = $product_repository->find($this->getRoute()->getParam('product_id'));
+        $vendors = $vendor_repository->findAll();
+        $folders = $folder_repository->findAll();
+
+        if ($request->isPostData()) {
+            $name = $request->getStringFromPost('name');
+            $price = $request->getFloatFromPost('price');
+            $amount = $request->getIntFromPost('amount');
+            $description = $request->getStringFromPost('description');
+            $vendor_id = $request->getIntFromPost('vendor_id');
+            $folder_ids = $request->getArrayFromPost('folder_ids');
+
+            if (!$name || !$price || !$amount) {
+                $this->getFlashMessageService()->message('danger', 'Заполнены не все обязательные поля!');
+                return $this->redirect($request->getRefererUrl());
+            }
+
+            $product->setName($name);
+            $product->setPrice($price);
+            $product->setAmount($amount);
+            $product->setDescription($description);
+            $product->setVendorId($vendor_id);
+
+            foreach ($folder_ids as $folder_id) {
+                $product->addFolderId($folder_id);
+            }
+
+            $product_repository->save($product);
+
+            $this->getFlashMessageService()->message('success', "Товар: '{$name}' обновлен!");
 
             return $this->redirect('/products');
         }
