@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {foreach from=$vendors->items item=vendor}
+        {foreach from=$vendors.items item=vendor}
             <tr>
                 <td>{$vendor.name} <small class="text-secondary">({$vendor.id})</small> </td>
                 <td style="white-space: nowrap;">

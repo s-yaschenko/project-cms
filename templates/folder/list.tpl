@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {foreach from=$folders->items item=folder}
+        {foreach from=$folders.items item=folder}
             <tr>
                 <td>{$folder.name} <small class="text-secondary">({$folder.id})</small> </td>
                 <td style="white-space: nowrap;">
