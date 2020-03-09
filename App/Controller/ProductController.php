@@ -3,7 +3,9 @@
 
 namespace App\Controller;
 
+use App\Http\Request;
 use App\Http\Response;
+use App\Model\Product;
 use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
@@ -67,31 +69,12 @@ class ProductController extends AbstractController
 
         $request = $this->getRequest();
         if ($request->isPostData()) {
-            $name = $request->getStringFromPost('name');
-            $price = $request->getFloatFromPost('price');
-            $amount = $request->getIntFromPost('amount');
-            $description = $request->getStringFromPost('description');
-            $vendor_id = $request->getIntFromPost('vendor_id');
-            $folder_ids = $request->getArrayFromPost('folder_ids');
 
-            if (!$name || !$price || !$amount) {
-                $this->getFlashMessageService()->message('danger', 'Заполнены не все обязательные поля!');
-                return $this->redirect($request->getRefererUrl());
-            }
-
-            $product->setName($name);
-            $product->setPrice($price);
-            $product->setAmount($amount);
-            $product->setDescription($description);
-            $product->setVendorId($vendor_id);
-
-            foreach ($folder_ids as $folder_id) {
-                $product->addFolderId($folder_id);
-            }
+            $product = $this->setProductDataFromRequest($product, $request);
 
             $product_repository->save($product);
 
-            $this->getFlashMessageService()->message('success', "Товар: '{$name}' добавлен!");
+            $this->getFlashMessageService()->message('success', "Товар: '{$product->getName()}' добавлен!");
 
             return $this->redirect('/products');
         }
@@ -122,31 +105,12 @@ class ProductController extends AbstractController
 
         $request = $this->getRequest();
         if ($request->isPostData()) {
-            $name = $request->getStringFromPost('name');
-            $price = $request->getFloatFromPost('price');
-            $amount = $request->getIntFromPost('amount');
-            $description = $request->getStringFromPost('description');
-            $vendor_id = $request->getIntFromPost('vendor_id');
-            $folder_ids = $request->getArrayFromPost('folder_ids');
 
-            if (!$name || !$price || !$amount) {
-                $this->getFlashMessageService()->message('danger', 'Заполнены не все обязательные поля!');
-                return $this->redirect($request->getRefererUrl());
-            }
-
-            $product->setName($name);
-            $product->setPrice($price);
-            $product->setAmount($amount);
-            $product->setDescription($description);
-            $product->setVendorId($vendor_id);
-
-            foreach ($folder_ids as $folder_id) {
-                $product->addFolderId($folder_id);
-            }
+            $product = $this->setProductDataFromRequest($product, $request);
 
             $product_repository->save($product);
 
-            $this->getFlashMessageService()->message('success', "Товар: '{$name}' обновлен!");
+            $this->getFlashMessageService()->message('success', "Товар: '{$product->getName()}' обновлен!");
 
             return $this->redirect('/products');
         }
@@ -156,6 +120,39 @@ class ProductController extends AbstractController
             'vendors' => $vendors,
             'folders' => $folders
         ]);
+    }
+
+
+    /**
+     * @param Product $product
+     * @param Request $request
+     * @return Response|Product
+     */
+    private function setProductDataFromRequest(Product $product, Request $request)
+    {
+        $name = $request->getStringFromPost('name');
+        $price = $request->getFloatFromPost('price');
+        $amount = $request->getIntFromPost('amount');
+        $description = $request->getStringFromPost('description');
+        $vendor_id = $request->getIntFromPost('vendor_id');
+        $folder_ids = $request->getArrayFromPost('folder_ids');
+
+        if (!$name || !$price || !$amount) {
+            $this->getFlashMessageService()->message('danger', 'Заполнены не все обязательные поля!');
+            return $this->redirect($request->getRefererUrl());
+        }
+
+        $product->setName($name);
+        $product->setPrice($price);
+        $product->setAmount($amount);
+        $product->setDescription($description);
+        $product->setVendorId($vendor_id);
+
+        foreach ($folder_ids as $folder_id) {
+            $product->addFolderId($folder_id);
+        }
+
+        return $product;
     }
 
 }
