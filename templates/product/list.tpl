@@ -1,21 +1,26 @@
 {include file="header.tpl"}
-<div class="row">
-    <div class="col-6 mb-4"><a href="/product/edit" class="btn btn-success">Добавить товар</a></div>
-</div>
 
-<nav>
-    <ul class="pagination pagination-sm">
-        {section start=1 loop=$paginator.pages+1 name="paginator"}
-            <li class="page-item {if $smarty.section.paginator.iteration == $paginator.current}active{/if}">
-                {if $smarty.section.paginator.iteration == $paginator.current}
-                    <span class="page-link">{$smarty.section.paginator.iteration}</span>
-                {else}
-                    <a class="page-link" href="?page={$smarty.section.paginator.iteration}">{$smarty.section.paginator.iteration}</a>
-                {/if}
-            </li>
-        {/section}
-    </ul>
-</nav>
+
+<div class="row">
+    <div class="d-flex justify-content-between w-100">
+        <h1>
+            Товары
+            {if $paginator.current != 1}
+                <small>(стр: {$paginator.current})</small>
+            {/if}
+        </h1>
+        <div class="btn">
+            <a href="/product/create" class="btn btn-success">Добавить товар</a>
+        </div>
+    </div>
+</div>
+{if !empty($message)}
+    {foreach from=$message->getMessage() item=e key=k}
+        <div class="alert alert-{$k}" role="alert">
+            {$e}
+        </div>
+    {/foreach}
+{/if}
 
 <div class="row">
     {foreach from=$products.items item=product}
@@ -55,5 +60,19 @@
         </div>
     {/foreach}
 </div>
+
+<nav>
+    <ul class="pagination pagination-sm">
+        {section start=1 loop=$paginator.pages+1 name="paginator"}
+            <li class="page-item {if $smarty.section.paginator.iteration == $paginator.current}active{/if}">
+                {if $smarty.section.paginator.iteration == $paginator.current}
+                    <span class="page-link">{$smarty.section.paginator.iteration}</span>
+                {else}
+                    <a class="page-link" href="?page={$smarty.section.paginator.iteration}">{$smarty.section.paginator.iteration}</a>
+                {/if}
+            </li>
+        {/section}
+    </ul>
+</nav>
 
 {include file="bottom.tpl"}

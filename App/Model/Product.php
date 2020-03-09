@@ -19,36 +19,36 @@ class Product extends AbstractEntity
      * @var string
      * @DbColumn()
      */
-    protected $name;
+    protected $name = '';
 
     /**
      * @var float
      * @DbColumn()
      */
-    protected $price;
+    protected $price = 0;
 
     /**
      * @var int
      * @DbColumn()
      */
-    protected $amount;
+    protected $amount = 1;
 
     /**
      * @var string
      * @DbColumn()
      */
-    protected $description;
+    protected $description = '';
 
     /**
      * @var int
      * @DbColumn()
      */
-    protected $vendor_id;
+    protected $vendor_id = 0;
 
     /**
      * @var array
      */
-    protected $folder_ids;
+    protected $folder_ids = [];
 
     /**
      * @return int

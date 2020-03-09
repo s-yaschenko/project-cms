@@ -14,6 +14,7 @@ use App\Model\Product;
  * @method Product find(int $id)
  * @method Product[] findAll()
  * @method Product[] findAllWithLimit(int $limit = 50, int $start = 0)
+ * @method Product createNewEntity()
  */
 class ProductRepository extends AbstractRepository
 {

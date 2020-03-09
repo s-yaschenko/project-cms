@@ -55,10 +55,30 @@ class Request
 
     /**
      * @param string $key
-     * @param string $default
+     * @param int $default
+     * @return float
+     */
+    public function getFloatFromPost(string $key, $default = 0)
+    {
+        return (float) $this->getRawFromPost($key, $default);
+    }
+
+    /**
+     * @param string $key
+     * @param array $default
+     * @return array
+     */
+    public function getArrayFromPost(string $key, $default = [])
+    {
+        return (array) $this->getRawFromPost($key, $default);
+    }
+
+    /**
+     * @param string $key
+     * @param int $default
      * @return int
      */
-    public function getIntFromPost(string $key, $default = '')
+    public function getIntFromPost(string $key, $default = 0)
     {
         return (int) $this->getRawFromPost($key, $default);
     }

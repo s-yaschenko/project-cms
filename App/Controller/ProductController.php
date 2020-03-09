@@ -47,4 +47,52 @@ class ProductController extends AbstractController
             'paginator' => $paginator
         ]);
     }
+
+    /**
+     * @Route(url="/product/create")
+     *
+     * @param ProductRepository $product_repository
+     * @param VendorRepository $vendor_repository
+     * @param FolderRepository $folder_repository
+     * @return Response
+     */
+    public function create(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository)
+    {
+        $product = $product_repository->createNewEntity();
+        $vendors = $vendor_repository->findAll();
+        $folders = $folder_repository->findAll();
+
+        $request = $this->getRequest();
+        if ($request->isPostData()) {
+            $name = $request->getStringFromPost('name');
+            $price = $request->getFloatFromPost('price');
+            $amount = $request->getIntFromPost('amount');
+            $description = $request->getStringFromPost('description');
+            $vendor_id = $request->getIntFromPost('vendor_id');
+            $folder_ids = $request->getArrayFromPost('folder_ids');
+
+            $product->setName($name);
+            $product->setPrice($price);
+            $product->setAmount($amount);
+            $product->setDescription($description);
+            $product->setVendorId($vendor_id);
+
+            foreach ($folder_ids as $folder_id) {
+                $product->addFolderId($folder_id);
+            }
+
+            $product_repository->save($product);
+
+            $this->getFlashMessageService()->message('success', "Товар: '{$name}' добавлен!");
+
+            return $this->redirect('/products');
+        }
+
+        return $this->render('product/product.tpl', [
+            'product' => $product,
+            'vendors' => $vendors,
+            'folders' => $folders
+        ]);
+    }
+
 }
