@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-
 use App\Http\Response;
 use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
@@ -60,18 +59,13 @@ class ProductController extends AbstractController
      */
     public function create(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, UserService $user_service)
     {
-        $request = $this->getRequest();
-        $user = $user_service->getCurrentUser();
-
-        if (!$user->getId()) {
-            $this->getFlashMessageService()->message('info', 'Авторизуйтесь для добавления товара');
-            return $this->redirect($request->getRefererUrl());
-        }
+        $this->checkUserAccess($user_service, 'Авторизуйтесь для добавления товара');
 
         $product = $product_repository->createNewEntity();
         $vendors = $vendor_repository->findAll();
         $folders = $folder_repository->findAll();
 
+        $request = $this->getRequest();
         if ($request->isPostData()) {
             $name = $request->getStringFromPost('name');
             $price = $request->getFloatFromPost('price');
@@ -120,18 +114,13 @@ class ProductController extends AbstractController
      */
     public function edit(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, UserService $user_service)
     {
-        $request = $this->getRequest();
-        $user = $user_service->getCurrentUser();
-
-        if (!$user->getId()) {
-            $this->getFlashMessageService()->message('info', 'Авторизуйтесь для обновления товара');
-            return $this->redirect($request->getRefererUrl());
-        }
+        $this->checkUserAccess($user_service, 'Авторизуйтесь для обновления товара');
 
         $product = $product_repository->find($this->getRoute()->getParam('product_id'));
         $vendors = $vendor_repository->findAll();
         $folders = $folder_repository->findAll();
 
+        $request = $this->getRequest();
         if ($request->isPostData()) {
             $name = $request->getStringFromPost('name');
             $price = $request->getFloatFromPost('price');

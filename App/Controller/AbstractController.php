@@ -12,6 +12,7 @@ use App\Http\Session;
 use App\Renderer\IRenderer;
 use App\Router\Route;
 use App\Service\FlashMessageService;
+use App\Service\UserService;
 
 /**
  * Class AbstractController
@@ -117,6 +118,26 @@ abstract class AbstractController
         $this->getResponse()->setHeader('Content-type', 'application/json');
 
         return $this->response;
+    }
+
+
+    /**
+     * @param UserService $user_service
+     * @param string $info_message
+     * @return Response|bool
+     */
+    protected function checkUserAccess(UserService $user_service, string $info_message = null)
+    {
+        $user = $user_service->getCurrentUser();
+
+        if (!$user->getId()) {
+            if ($info_message) {
+                $this->getFlashMessageService()->message('info', $info_message);
+            }
+            return $this->redirect($this->getRequest()->getRefererUrl());
+        }
+
+        return true;
     }
 
     /**
