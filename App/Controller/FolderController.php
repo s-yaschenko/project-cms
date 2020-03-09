@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Http\Response;
 use App\Repository\FolderRepository;
+use App\Service\PaginationService;
 
 class FolderController extends AbstractController
 {
@@ -18,20 +19,13 @@ class FolderController extends AbstractController
      * @param FolderRepository $folder_repository
      * @return Response
      */
-    public function list(FolderRepository $folder_repository)
+    public function list(FolderRepository $folder_repository, PaginationService $pagination)
     {
-        $current_page = $this->getRequest()->getIntFromGet('page', '1');
-
-        $start = self::PER_PAGE * ($current_page - 1);
-
-        $folders = [
-            'count' => $folder_repository->getCount(),
-            'items' => $folder_repository->findAllWithLimit(self::PER_PAGE, $start)
-        ];
+        $folders = $pagination->paginate($folder_repository, $this->getRequest(), self::PER_PAGE);
 
         $paginator = [
-            'pages' => ceil($folders['count'] / self::PER_PAGE),
-            'current' => $current_page
+            'pages' => $pagination->pages($folders),
+            'current' => $pagination->currentPage($folders)
         ];
 
         return $this->render('folder/list.tpl',[

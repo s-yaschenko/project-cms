@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Http\Response;
 use App\Repository\VendorRepository;
+use App\Service\PaginationService;
 
 class VendorController extends AbstractController
 {
@@ -18,20 +19,13 @@ class VendorController extends AbstractController
      * @param VendorRepository $vendor_repository
      * @return Response
      */
-    public function list(VendorRepository $vendor_repository)
+    public function list(VendorRepository $vendor_repository, PaginationService $pagination)
     {
-        $current_page = $this->getRequest()->getIntFromGet('page', '1');
-
-        $start = self::PER_PAGE * ($current_page - 1);
-
-        $vendors = [
-            'count' => $vendor_repository->getCount(),
-            'items' => $vendor_repository->findAllWithLimit(self::PER_PAGE, $start)
-        ];
+        $vendors = $pagination->paginate($vendor_repository, $this->getRequest(), self::PER_PAGE);
 
         $paginator = [
-            'pages' => ceil($vendors['count'] / self::PER_PAGE),
-            'current' => $current_page
+            'pages' => $pagination->pages($vendors),
+            'current' => $pagination->currentPage($vendors)
         ];
 
         return $this->render('vendor/list.tpl', [
