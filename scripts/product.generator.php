@@ -30,6 +30,9 @@ for ($i = 0; $i < $faker->numberBetween(100, 200); $i++) {
         $product->addFolderId($folder->getId());
     }
 
+    /**
+     * @var \App\Repository\ProductRepository $product_repository
+     */
     $product_repository->save($product);
 
     echo $product->getName();

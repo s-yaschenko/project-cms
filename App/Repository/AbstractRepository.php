@@ -87,7 +87,7 @@ abstract class AbstractRepository
             ->from($this->table_name)
             ->getQuery();
 
-        $entities = $this->getObjectDataManager()->fetchAll($query, $this->model);
+        $entities = $this->getObjectDataManager()->fetchAllHash($query,'id', $this->model);
 
         return $this->modifyResultList($entities);
     }

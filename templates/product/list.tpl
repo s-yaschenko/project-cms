@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 <div class="row">
-    <div class="col-6 mb-4"><a href="/product/edit" class="btn btn-success">Добавить товар ({$products.count})</a></div>
+    <div class="col-6 mb-4"><a href="/product/edit" class="btn btn-success">Добавить товар</a></div>
 </div>
 
 <nav>
@@ -29,7 +29,14 @@
                         <li>Кол-во товара: {$product.amount}</li>
                         {assign var=product_vendor_id value=$product.vendor_id}
                         <li>Производитель: {$vendors[$product_vendor_id].name}</li>
-                        <li>Категории: {foreach from=$product->getFolderIds() item=folder_id name=product_folder_ids}{$folders[$folder_id].name}{if !$smarty.foreach.product_folder_ids.last}, {/if}{foreachelse}&ndash;{/foreach}</li>
+                        <li>Категории:
+                            {foreach from=$product->getFolderIds() item=folder_id name=product_folder_ids}
+                                {$folders[$folder_id].name}
+                                {if !$smarty.foreach.product_folder_ids.last}, {/if}
+                                {foreachelse}
+                                &ndash;
+                            {/foreach}
+                        </li>
                     </ul>
                     </p>
                     <div class="d-flex justify-content-between align-items-center">
