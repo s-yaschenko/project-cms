@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-        {foreach from=$folders item=folder}
+        {foreach from=$folders.items item=folder}
             <tr>
                 <td>{$folder.name} <small class="text-secondary">({$folder.id})</small> </td>
                 <td style="white-space: nowrap;">
@@ -34,4 +34,6 @@
         </tbody>
     </table>
 </div>
+
+{include file="pagination.tpl"}
 {include file="bottom.tpl"}

@@ -10,6 +10,7 @@ use App\Repository\FolderRepository;
 class FolderController extends AbstractController
 {
 
+    private const PER_PAGE = 10;
 
     /**
      * @Route(url="/folders")
@@ -19,10 +20,23 @@ class FolderController extends AbstractController
      */
     public function list(FolderRepository $folder_repository)
     {
-        $folders = $folder_repository->findAll();
+        $current_page = $this->getRequest()->getIntFromGet('page', '1');
+
+        $start = self::PER_PAGE * ($current_page - 1);
+
+        $folders = [
+            'count' => $folder_repository->getCount(),
+            'items' => $folder_repository->findAllWithLimit(self::PER_PAGE, $start)
+        ];
+
+        $paginator = [
+            'pages' => ceil($folders['count'] / self::PER_PAGE),
+            'current' => $current_page
+        ];
 
         return $this->render('folder/list.tpl',[
-            'folders' => $folders
+            'folders' => $folders,
+            'paginator' => $paginator
         ]);
     }
 
