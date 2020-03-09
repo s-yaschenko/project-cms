@@ -8,6 +8,7 @@ use App\Http\Response;
 use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
+use App\Service\UserService;
 
 class ProductController extends AbstractController
 {
@@ -56,13 +57,20 @@ class ProductController extends AbstractController
      * @param FolderRepository $folder_repository
      * @return Response
      */
-    public function create(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository)
+    public function create(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, UserService $user_service)
     {
+        $request = $this->getRequest();
+        $user = $user_service->getCurrentUser();
+
+        if (!$user->getId()) {
+            $this->getFlashMessageService()->message('info', 'Авторизуйтесь для добавления товара');
+            return $this->redirect($request->getRefererUrl());
+        }
+
         $product = $product_repository->createNewEntity();
         $vendors = $vendor_repository->findAll();
         $folders = $folder_repository->findAll();
 
-        $request = $this->getRequest();
         if ($request->isPostData()) {
             $name = $request->getStringFromPost('name');
             $price = $request->getFloatFromPost('price');
