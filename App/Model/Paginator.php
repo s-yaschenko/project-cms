@@ -29,6 +29,11 @@ class Paginator implements \ArrayAccess
     private $limit;
 
     /**
+     * @var int
+     */
+    private $count_pages;
+
+    /**
      * @var array
      */
     private $items;
@@ -51,9 +56,9 @@ class Paginator implements \ArrayAccess
 
     /**
      * @param int $start
-     * @return $this
+     * @return Paginator
      */
-    public function setStart(int $start)
+    public function setStart(int $start): Paginator
     {
         $this->start = $start;
 
@@ -62,12 +67,26 @@ class Paginator implements \ArrayAccess
 
     /**
      * @param int $limit
+     * @return Paginator
      */
-    public function setLimit(int $limit)
+    public function setLimit(int $limit): Paginator
     {
         $this->limit = $limit;
 
-        $this->items = $this->getRepository()->findAllWithLimit($limit, $this->start);
+        return $this;
+    }
+
+    /**
+     * @return Paginator
+     */
+    public function setItems(): Paginator
+    {
+        $limit = $this->getLimit();
+        $start = $this->getStart();
+
+        $this->items = $this->getRepository()->findAllWithLimit($limit, $start);
+
+        return $this;
     }
 
     /**
@@ -75,7 +94,9 @@ class Paginator implements \ArrayAccess
      */
     public function getCountPages():int
     {
-        return (int) ceil($this->count() / $this->limit);
+        $this->count_pages = (int) ceil($this->count() / $this->getLimit());
+
+        return $this->count_pages;
     }
 
     /**
@@ -95,12 +116,19 @@ class Paginator implements \ArrayAccess
     }
 
     /**
-     * @param $name
-     * @return mixed
+     * @return array
      */
-    public function __get($name)
+    public function getItems(): array
     {
-        return $this->{$name};
+        return $this->items;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountPage(): int
+    {
+        return $this->count_pages;
     }
 
     /**
@@ -136,6 +164,22 @@ class Paginator implements \ArrayAccess
     public function offsetUnset($offset)
     {
         // TODO: Implement offsetUnset() method.
+    }
+
+    /**
+     * @return int
+     */
+    private function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    /**
+     * @return int
+     */
+    private function getStart(): int
+    {
+        return $this->start;
     }
 
     /**

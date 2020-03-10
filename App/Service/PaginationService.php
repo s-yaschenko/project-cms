@@ -16,7 +16,8 @@ class PaginationService
         $paginator = new Paginator($repository);
         $paginator->setCurrentPage($current_page)
             ->setStart($limit * ($current_page - 1))
-            ->setLimit($limit);
+            ->setLimit($limit)
+            ->setItems();
 
         return $paginator;
     }
