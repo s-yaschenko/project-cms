@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Factory\PaginationFactory;
 use App\Http\Response;
 use App\Repository\VendorRepository;
 use App\Service\PaginationService;
@@ -19,7 +20,7 @@ class VendorController extends AbstractController
      * @param VendorRepository $vendor_repository
      * @return Response
      */
-    public function list(VendorRepository $vendor_repository, PaginationService $pagination)
+    public function list(VendorRepository $vendor_repository, PaginationFactory $pagination)
     {
         $vendors = $pagination->paginate($vendor_repository, $this->getRequest(), self::PER_PAGE);
 
