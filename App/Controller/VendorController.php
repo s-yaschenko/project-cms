@@ -18,6 +18,7 @@ class VendorController extends AbstractController
      * @Route(url="/vendors")
      *
      * @param VendorRepository $vendor_repository
+     * @param PaginationFactory $pagination
      * @return Response
      */
     public function list(VendorRepository $vendor_repository, PaginationFactory $pagination)

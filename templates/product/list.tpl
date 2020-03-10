@@ -5,8 +5,8 @@
     <div class="d-flex justify-content-between w-100">
         <h1>
             Товары
-            {if $paginator.current != 1}
-                <small>(стр: {$paginator.current})</small>
+            {if $products.current_page != 1}
+                <small>(стр: {$products.current_page})</small>
             {/if}
         </h1>
         <div class="btn">
@@ -61,5 +61,5 @@
     {/foreach}
 </div>
 
-{include file="pagination.tpl"}
+{include file="pagination.tpl" paginator="$products"}
 {include file="bottom.tpl"}

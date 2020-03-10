@@ -35,5 +35,5 @@
     </table>
 </div>
 
-{include file="pagination.tpl"}
+{include file="pagination.tpl" paginator="$folders"}
 {include file="bottom.tpl"}

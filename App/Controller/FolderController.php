@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Factory\PaginationFactory;
 use App\Http\Response;
 use App\Repository\FolderRepository;
 use App\Service\PaginationService;
@@ -19,18 +20,12 @@ class FolderController extends AbstractController
      * @param FolderRepository $folder_repository
      * @return Response
      */
-    public function list(FolderRepository $folder_repository, PaginationService $pagination)
+    public function list(FolderRepository $folder_repository, PaginationFactory $pagination)
     {
         $folders = $pagination->paginate($folder_repository, $this->getRequest(), self::PER_PAGE);
 
-        $paginator = [
-            'pages' => $pagination->pages($folders),
-            'current' => $pagination->currentPage($folders)
-        ];
-
         return $this->render('folder/list.tpl',[
-            'folders' => $folders,
-            'paginator' => $paginator
+            'folders' => $folders
         ]);
     }
 

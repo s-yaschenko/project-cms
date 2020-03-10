@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Factory\PaginationFactory;
 use App\Http\Request;
 use App\Http\Response;
 use App\Model\Product;
@@ -23,30 +24,29 @@ class ProductController extends AbstractController
      * @param FolderRepository $folder_repository
      * @return Response
      */
-    public function list(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository)
+    public function list(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, PaginationFactory $pagination)
     {
-        $current_page = $this->getRequest()->getIntFromGet('page', 1);
-
-        $start = self::PER_PAGE * ($current_page - 1);
-
-        $products = [
-            'count' => $product_repository->getCount(),
-            'items' => $product_repository->findAllWithLimit(self::PER_PAGE, $start)
-        ];
-
+//        $current_page = $this->getRequest()->getIntFromGet('page', 1);
+//
+//        $start = self::PER_PAGE * ($current_page - 1);
+//
+//        $products = [
+//            'count' => $product_repository->getCount(),
+//            'items' => $product_repository->findAllWithLimit(self::PER_PAGE, $start)
+//        ];
+        $products = $pagination->paginate($product_repository, $this->getRequest(), self::PER_PAGE);
         $vendors = $vendor_repository->findAll();
         $folders = $folder_repository->findAll();
 
-        $paginator = [
-            'pages' => ceil($products['count'] / self::PER_PAGE),
-            'current' => $current_page
-        ];
+//        $paginator = [
+//            'pages' => ceil($products['count'] / self::PER_PAGE),
+//            'current' => $current_page
+//        ];
 
         return $this->render('product/list.tpl', [
             'products' => $products,
             'vendors' => $vendors,
-            'folders' => $folders,
-            'paginator' => $paginator
+            'folders' => $folders
         ]);
     }
 
