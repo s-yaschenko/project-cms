@@ -23,14 +23,8 @@ class VendorController extends AbstractController
     {
         $vendors = $pagination->paginate($vendor_repository, $this->getRequest(), self::PER_PAGE);
 
-        $paginator = [
-            'pages' => $pagination->pages($vendors),
-            'current' => $pagination->currentPage($vendors)
-        ];
-
         return $this->render('vendor/list.tpl', [
-            'vendors' => $vendors,
-            'paginator' => $paginator
+            'vendors' => $vendors
         ]);
     }
 

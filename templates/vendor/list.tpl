@@ -34,5 +34,5 @@
         </tbody>
     </table>
 </div>
-{include file="pagination.tpl"}
+{include file="pagination.tpl" paginator="$vendors"}
 {include file="bottom.tpl"}

@@ -90,12 +90,20 @@ class Paginator implements \ArrayAccess
     }
 
     /**
+     * @return Paginator
+     */
+    public function setCountPages(): Paginator
+    {
+        $this->count_pages = (int) ceil($this->count() / $this->getLimit());
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getCountPages():int
     {
-        $this->count_pages = (int) ceil($this->count() / $this->getLimit());
-
         return $this->count_pages;
     }
 
@@ -123,13 +131,6 @@ class Paginator implements \ArrayAccess
         return $this->items;
     }
 
-    /**
-     * @return int
-     */
-    public function getCountPage(): int
-    {
-        return $this->count_pages;
-    }
 
     /**
      * @param mixed $offset
