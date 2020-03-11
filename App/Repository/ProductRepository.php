@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Model\AbstractEntity;
 use App\Model\Product;
+use App\MySQL\Interfaces\ITableRow;
 
 /**
  * Class ProductRepository
@@ -22,6 +23,23 @@ class ProductRepository extends AbstractRepository
      * @var string
      */
     protected $model = Product::class;
+
+    /**
+     * @param string $name
+     * @return ITableRow[]|array
+     */
+    public function searchProductByName(string $name)
+    {
+//        $query = $this->getQueryBuilder()
+//            ->select()
+//            ->from($this->table_name)
+//            ->where('name',"LIKE '%{$name}%'")
+//            ->getQuery();
+
+        $query = "SELECT * FROM $this->table_name WHERE name LIKE '%{$name}%'";
+
+        return $this->getObjectDataManager()->fetchAll($query, $this->model);
+    }
 
     /**
      * @param AbstractEntity $product

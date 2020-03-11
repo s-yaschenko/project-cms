@@ -7,5 +7,6 @@ return [
     \App\Controller\FolderController::class,
     \App\Controller\VendorController::class,
     \App\Controller\ProductController::class,
-    \App\Controller\CartController::class
+    \App\Controller\CartController::class,
+    \App\Controller\SearchController::class
 ];

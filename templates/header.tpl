@@ -71,8 +71,8 @@
                 <a class="px-2 text-white" href="/login">Вход</a>
                 <a class="px-2 text-white" href="/register">Регистрация</a>
             {/if}
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <form action="/search" class="form-inline my-2 my-lg-0" method="get">
+                <input class="form-control mr-sm-2" type="text" name="name" placeholder="Search product" aria-label="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>

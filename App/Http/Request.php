@@ -55,6 +55,16 @@ class Request
 
     /**
      * @param string $key
+     * @param string $default
+     * @return string
+     */
+    public function getStringFromGet(string $key, $default = '')
+    {
+        return (string) $this->getRawFromGet($key, $default);
+    }
+
+    /**
+     * @param string $key
      * @param int $default
      * @return float
      */
