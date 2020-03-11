@@ -26,22 +26,9 @@ class ProductController extends AbstractController
      */
     public function list(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, PaginationFactory $pagination)
     {
-//        $current_page = $this->getRequest()->getIntFromGet('page', 1);
-//
-//        $start = self::PER_PAGE * ($current_page - 1);
-//
-//        $products = [
-//            'count' => $product_repository->getCount(),
-//            'items' => $product_repository->findAllWithLimit(self::PER_PAGE, $start)
-//        ];
         $products = $pagination->paginate($product_repository, $this->getRequest(), self::PER_PAGE);
         $vendors = $vendor_repository->findAll();
         $folders = $folder_repository->findAll();
-
-//        $paginator = [
-//            'pages' => ceil($products['count'] / self::PER_PAGE),
-//            'current' => $current_page
-//        ];
 
         return $this->render('product/list.tpl', [
             'products' => $products,
@@ -116,6 +103,33 @@ class ProductController extends AbstractController
         }
 
         return $this->render('product/product.tpl', [
+            'product' => $product,
+            'vendors' => $vendors,
+            'folders' => $folders
+        ]);
+    }
+
+    /**
+     * @Route(url="/product/{product_id}")
+     *
+     * @param ProductRepository $product_repository
+     * @return Response
+     */
+    public function view(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository)
+    {
+        $product_id = $this->getRoute()->getParam('product_id');
+
+        $product = $product_repository->find($product_id);
+
+        if (is_null($product)) {
+            $this->getFlashMessageService()->message('info', 'Товар не найден!');
+            return $this->redirect('/products');
+        }
+
+        $vendors = $vendor_repository->findAll();
+        $folders = $folder_repository->findAll();
+
+        return $this->render('product/view.tpl', [
             'product' => $product,
             'vendors' => $vendors,
             'folders' => $folders
