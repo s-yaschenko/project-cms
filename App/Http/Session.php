@@ -30,7 +30,7 @@ class Session
      */
     public function getDataSessionByKey(string $key)
     {
-        if (!isset($_SESSION[$key])) {
+        if (!$this->isDataSessionByKey($key)) {
             return null;
         }
         return $_SESSION[$key];
@@ -42,5 +42,14 @@ class Session
     public function unsetDataSessionByKey(string $key)
     {
         unset($_SESSION[$key]);
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function isDataSessionByKey(string $key)
+    {
+        return isset($_SESSION[$key]);
     }
 }

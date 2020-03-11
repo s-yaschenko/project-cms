@@ -16,6 +16,7 @@ use App\QueryBuilder\Interfaces\IQueryBuilder;
 use App\QueryBuilder\QueryBuilder;
 use App\Renderer\IRenderer;
 use App\Renderer\SmartyRenderer;
+use App\Service\CartService;
 use App\Service\FlashMessageService;
 use App\Service\UserService;
 
@@ -40,6 +41,7 @@ $container->add(ArrayDataManager::class);
 $container->add(ObjectDataManager::class);
 $container->add(QueryBuilder::class);
 $container->add(UserService::class);
+$container->add(CartService::class);
 $container->add(FlashMessageService::class);
 
 $container->add(Config::class, function () {

@@ -10,11 +10,31 @@ use App\Model\Product;
 use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
+use App\Service\CartService;
 use App\Service\UserService;
 
 class ProductController extends AbstractController
 {
     private const PER_PAGE = 9;
+
+
+    /**
+     * @Route(url="/product/buy/{product_id}")
+     *
+     * @param ProductRepository $product_repository
+     * @param CartService $cart_service
+     * @return Response
+     */
+    public function buy(ProductRepository $product_repository, CartService $cart_service)
+    {
+        $product_id = $this->getRoute()->getParam('product_id');
+
+        $product = $product_repository->find($product_id);
+
+        $cart_service->addProduct($product);
+
+        return $this->redirect($this->getRequest()->getRefererUrl());
+    }
 
     /**
      * @Route(url="/products")
