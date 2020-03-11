@@ -2,7 +2,7 @@
 <h1>{$product.name}</h1>
 
 <div class="card">
-    <h5 class="card-header">{$product.name}</h5>
+    <h5 class="card-header">{$product.name} <span class="badge badge-success">Цена: {$product.price}</span></h5>
     <div class="card-body">
         <h5 class="card-title">Информация о товаре</h5>
         <p class="card-text">
@@ -24,7 +24,7 @@
         <h5 class="card-title">Описание</h5>
         <p class="card-text">{$product.description}</p>
         <hr>
-        <a href="#" class="btn btn-primary">Купить</a>
+        <a href="/product/buy/{$product.id}" class="btn btn-primary">Купить</a>
     </div>
 </div>
 {include file="bottom.tpl"}

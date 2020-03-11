@@ -67,7 +67,7 @@ class CartService
     /**
      * @return string
      */
-    public function getSessionKey(): string
+    private function getSessionKey(): string
     {
         return $this->session_key;
     }

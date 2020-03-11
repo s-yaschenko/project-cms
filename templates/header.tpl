@@ -53,10 +53,15 @@
         </ul>
         <div class="form-inline my-2 my-lg-0 px-2" style="border: 1px solid #ffffff; border-radius: 4px;">
             <span class="px-2 text-white">Корзина:</span>
-            <span class="badge badge-warning">Позиций: {$cart->getCountCartItems()}</span>
-            <span class="badge badge-info mr-1 ml-1">Товаров: {$cart->getAmount()}</span>
-            <span class="badge badge-success mr-1">Сумма: {$cart->getPrice()} руб.</span>
-            <a href="/cart/clear" class="badge badge-danger"><i class="fa fa-trash"></i></a>
+            {if !empty($cart->getCountCartItems())}
+                <span class="badge badge-warning">Позиций: {$cart->getCountCartItems()}</span>
+                <span class="badge badge-info mr-1 ml-1">Товаров: {$cart->getAmount()}</span>
+                <span class="badge badge-success mr-1">Сумма: {$cart->getPrice()} руб.</span>
+                <a href="/cart/clear" class="badge badge-danger"><i class="fa fa-trash"></i></a>
+            {else}
+                <span class="px-2 text-white">Пуста</span>
+            {/if}
+
         </div>
         <div class="form-inline my-2 my-lg-0" >
             {if $user->getId()}
