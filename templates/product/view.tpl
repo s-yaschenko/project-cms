@@ -24,7 +24,17 @@
         <h5 class="card-title">Описание</h5>
         <p class="card-text">{$product.description}</p>
         <hr>
-        <a href="/product/buy/{$product.id}" class="btn btn-primary">Купить</a>
+        <div class="form-inline my-2 my-lg-0 px-2">
+            <a href="/product/buy/{$product.id}" class="btn btn-primary mr-1">Купить</a>
+            {if !empty($message)}
+                {foreach from=$message->getMessage() item=e key=k}
+                    <div class="pt-1 pb-1 pl-2 pr-2 alert-{$k}" role="alert">
+                        {$e}
+                    </div>
+                {/foreach}
+            {/if}
+        </div>
+
     </div>
 </div>
 {include file="bottom.tpl"}

@@ -37,6 +37,7 @@ class ProductController extends AbstractController
         }
 
         $cart_service->addProduct($product);
+        $this->getFlashMessageService()->message('success', "Товар '{$product->getName()}' добавлен в корзину");
 
         return $this->redirect($this->getRequest()->getRefererUrl());
     }
