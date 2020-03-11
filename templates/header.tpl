@@ -57,7 +57,8 @@
                 <span class="badge badge-warning">Позиций: {$cart->getCountCartItems()}</span>
                 <span class="badge badge-info mr-1 ml-1">Товаров: {$cart->getAmount()}</span>
                 <span class="badge badge-success mr-1">Сумма: {$cart->getPrice()} руб.</span>
-                <a href="/cart/clear" class="badge badge-danger"><i class="fa fa-trash"></i></a>
+                <a href="/cart/clear" class="badge badge-danger mr-1"><i class="fa fa-trash"></i></a>
+                <a class="badge badge-success" href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
             {else}
                 <span class="px-2 text-white">Пуста</span>
             {/if}

@@ -50,6 +50,15 @@ class Cart
     }
 
     /**
+     * @param Product $product
+     */
+    public function delete(Product $product)
+    {
+        $cart_item = $this->getItem($product);
+        $this->deleteCartItem($cart_item);
+    }
+
+    /**
      * @return int
      */
     public function getCountCartItems(): int
@@ -85,4 +94,15 @@ class Cart
 
         $this->cart_items[$product_id] = $cart_item;
     }
+
+    /**
+     * @param CartItem $cart_item
+     */
+    private function deleteCartItem(CartItem $cart_item)
+    {
+        $product_id = $cart_item->getProduct()->getId();
+
+        unset($this->cart_items[$product_id]);
+    }
+
 }

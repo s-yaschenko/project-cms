@@ -59,6 +59,14 @@ class CartService
         $this->storeCart();
     }
 
+    public function deleteProduct(Product $product)
+    {
+        $cart = $this->getCart();
+        $cart->delete($product);
+
+        $this->storeCart();
+    }
+
     public function clearCart()
     {
         $this->getSession()->unsetDataSessionByKey($this->getSessionKey());
