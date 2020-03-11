@@ -18,10 +18,10 @@ class SearchController extends AbstractController
     {
         $name = $this->getRequest()->getStringFromGet('name');
 
-        $search = $product_repository->searchProductByName($name);
+        $products = $product_repository->searchProductByName($name);
 
         return $this->render('search.tpl', [
-            'search' => $search
+            'products' => $products
         ]);
     }
 }

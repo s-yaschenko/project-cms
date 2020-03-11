@@ -32,7 +32,10 @@ class Request
     {
         $http_referer = $_SERVER['HTTP_REFERER'];
 
-        return parse_url($http_referer, PHP_URL_PATH);
+        $url_path = parse_url($http_referer, PHP_URL_PATH);
+        $url_query = parse_url($http_referer, PHP_URL_QUERY);
+
+        return $url_path . '?' . $url_query;
     }
 
     /**
