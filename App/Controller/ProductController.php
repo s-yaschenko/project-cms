@@ -31,6 +31,11 @@ class ProductController extends AbstractController
 
         $product = $product_repository->find($product_id);
 
+        if (is_null($product)) {
+            $this->getFlashMessageService()->message('danger', 'Товар для добавления в корзину не найден!');
+            return $this->redirect('/products');
+        }
+
         $cart_service->addProduct($product);
 
         return $this->redirect($this->getRequest()->getRefererUrl());
@@ -42,6 +47,7 @@ class ProductController extends AbstractController
      * @param ProductRepository $product_repository
      * @param VendorRepository $vendor_repository
      * @param FolderRepository $folder_repository
+     * @param PaginationFactory $pagination
      * @return Response
      */
     public function list(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository, PaginationFactory $pagination)
@@ -133,6 +139,8 @@ class ProductController extends AbstractController
      * @Route(url="/product/{product_id}")
      *
      * @param ProductRepository $product_repository
+     * @param VendorRepository $vendor_repository
+     * @param FolderRepository $folder_repository
      * @return Response
      */
     public function view(ProductRepository $product_repository, VendorRepository $vendor_repository, FolderRepository $folder_repository)
